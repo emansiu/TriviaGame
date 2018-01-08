@@ -20,3 +20,9 @@ body {
     background-image: url("..//images/food.png");
     background-repeat: repeat;
 }
+
+.answers {
+    width: 200px;
+    height: 200px;
+    background-color:green;
+}

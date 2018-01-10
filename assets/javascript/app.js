@@ -59,7 +59,6 @@ function run() {
     intervalId = setInterval(decrementSecond, 1000);
 }
 
-// --- click functions----------
 // this click begins game
 $(".start").on("click",function(){
     // run();
@@ -73,18 +72,33 @@ function choicesDisplay (n) {
         currentButton.attr("choice-number",i);
         $("#questions").append(currentButton);
     }
+     // this click check which button you clicked to make sure it matches with 
+    $(".choices").on("click",function(){
+        // determine if the button clicked is correct or not
+        if (parseInt($(this).attr("choice-number")) === game.trivia[n].answer) {
+            alert("winner");
+            nextQuestion();
+        }
+        else {
+            alert("Sorry, the correct answer was " + game.trivia[n].choices[game.trivia[n].answer]);
+        }
+    });
 }
+// ----using choiceDisplay to loop through the choices for the current question and displaying it all-----
 function nextQuestion () {
-    $("#questions").empty();
-    $("#questions").append(game.trivia[question].question);
-    choicesDisplay(question);
-    question ++;
+    if (question < game.trivia.length){
+        $("#questions").empty();
+        $("#questions").append(game.trivia[question].question);
+        choicesDisplay(question);
+        question ++;
+    }
+    else if (question === game.trivia.length){
+        $("#questions").empty();
+        $("#questions").append("That's it, good job");
+    }
 }
 
- // this click check which button you clicked to make sure it matches with 
- $(".choices").on("click",function(){
-    console.log($(this).attr("choice-number"));
-});
+
 
 
 

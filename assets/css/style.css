@@ -21,8 +21,13 @@ body {
     background-repeat: repeat;
 }
 
-.answers {
+.choices {
     width: 200px;
     height: 200px;
-    background-color:green;
+    color:white;
+    font-size: 2em;
+    background-color:rgb(24, 166, 202);
+    display: block;
+    margin: auto;
+    margin-top: 10px;
 }

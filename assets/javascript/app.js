@@ -1,5 +1,5 @@
 // default time variables
-var timeLeft = 30;
+var timeLeft = 4;
 var answerTime = 3;
 var intervalId;
 var go = true;
@@ -14,15 +14,16 @@ function createButton (buttonText, className) {
 
 $(document).ready(function() {
     
-    $("#questions").append(createButton("test","answers"));
-    $("#questions").append(createButton("another","answers"));
+    $("#questions").append(createButton("test","choices"));
+    $("#questions").append(createButton("another","choices"));
 });
+
 // main game app object
 var game = {
     time: 30,
-    break: 4,
-    // choices: $("<button>").addClass("answers"),
+    timeForAnswer: 4,
 
+    // array of objects which are the trivia questions, choices and answer
     trivia: [
         {   question: "Champagne is a sparkling wine made from grapes grown in the Champagne region of which country?",
             choices: ["Belgium", "France", "Denmark", "Algeria"],
@@ -53,14 +54,20 @@ console.log ("the answer is " + game.trivia[1].choices[game.trivia[1].answer]);
 
 
 
-// stuff that works for testing
-// function count() {
-//     timeLeft --;
-//     $("#time-left").text(timeLeft);
-// }
 
-// function run() {
-//     intervalId = setInterval(count, 1000);
-// }
+function timer() {
+    if (timeLeft > 0){
+        timeLeft --;
+        $("#time-left").text(timeLeft);
+    }
+}
 
-// run();
+function run() {
+    intervalId = setInterval(timer, 1000);
+}
+function resetTime (){
+    timeLeft = 14;
+}
+
+$(".submit").on(C)
+run();

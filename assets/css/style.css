@@ -1,7 +1,22 @@
+/*------------------ TOP HIGH LEVEL DESIGNS---------------- */
 * {
     box-sizing: border-box;
 }
+body {
+    background-image: url("..//images/food.png");
+    background-repeat: repeat;
+}
+h1 {
+    color: blue;
+    font-size: 3em;
+}
+h2 {
+    color: blue;
+    font-size: 2em;
+}
 
+
+/*--------------------- MAIN ID'S FOR THE PAGE -----------------*/
 #container {
     position:relative;
     /* background-color:black; */
@@ -9,20 +24,25 @@
     height:100vh; */
 }
 
+#header {
+    text-align: center;
+}
+
+
+
+/* -------------BUTTON STYLES---------------------- */
 button {
     background-color:white;
     padding:10px 20px;
     border:none;
     border-radius: 10px;
 }
-
-body {
-    background-image: url("..//images/food.png");
-    background-repeat: repeat;
-}
-
-.answers {
-    width: 200px;
-    height: 200px;
+.choices {
     background-color:green;
+    color:white;
+    border: 3px solid blue;
+    border-radius: 10px;
+    display: block;
+    margin:auto;
+    margin-top:10px;
 }

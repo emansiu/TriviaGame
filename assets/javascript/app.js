@@ -1,28 +1,12 @@
-// default time variables
-var timeLeft = 30;
-var answerTime = 3;
-var intervalId;
-var go = true;
-
-// create a button
-function createButton (buttonText, className) {
-    let newButton = $("<button>");
-    newButton.addClass(className);
-    newButton.text(buttonText);
-    return newButton
-}
-
 $(document).ready(function() {
-    
-    $("#questions").append(createButton("test","answers"));
-    $("#questions").append(createButton("another","answers"));
-});
+
 // main game app object
 var game = {
-    time: 30,
-    break: 4,
+    time: 12,
+    answerTime: 4,
     // choices: $("<button>").addClass("answers"),
 
+    // array of objects containing questions, choices and answers
     trivia: [
         {   question: "Champagne is a sparkling wine made from grapes grown in the Champagne region of which country?",
             choices: ["Belgium", "France", "Denmark", "Algeria"],
@@ -37,30 +21,81 @@ var game = {
 
 };
 
-console.log (game.trivia[0].question);
-console.log (game.trivia[0].choices[0]);
-console.log (game.trivia[0].choices[1]);
-console.log (game.trivia[0].choices[2]);
-console.log (game.trivia[0].choices[3]);
-console.log ("the answer is " + game.trivia[0].choices[game.trivia[0].answer]);
-console.log (game.trivia[1].question);
-console.log (game.trivia[1].choices[0]);
-console.log (game.trivia[1].choices[1]);
-console.log (game.trivia[1].choices[2]);
-console.log (game.trivia[1].choices[3]);
-console.log ("the answer is " + game.trivia[1].choices[game.trivia[1].answer]);
+// default time variables
+var timeLeft = 12;
+var answerTime = 3;
+var intervalId;
+var clockRunning = false;
+
+// game variables
+var question = 0;
+var correct = 0;
+var wrong = 0;
+
+// create a button with return value of that new button-----------
+function createButton (buttonText, className) {
+    let newButton = $("<button>");
+    newButton.addClass(className);
+    newButton.text(buttonText);
+    return newButton
+}
+
+// below are all timer related functions--------------------------
+function decrementSecond() {
+    if (timeLeft > 0){
+        timeLeft --;
+        $("#time-left").text(timeLeft);
+    }
+    else {
+        resetTimers()
+    }
+}
+function resetTimers(){
+    timeLeft = 12;
+    answerTime = 3
+    $("#questions").empty();
+}
+function run() {
+    intervalId = setInterval(decrementSecond, 1000);
+}
+
+// --- click functions----------
+// this click begins game
+$(".start").on("click",function(){
+    // run();
+    nextQuestion();
+});
+
+// ----- function to display a single question with its options -----
+function choicesDisplay (n) {
+    for (var i=0; i < game.trivia[n].choices.length; i++){
+        let currentButton = createButton(game.trivia[n].choices[i], "choices");
+        currentButton.attr("choice-number",i);
+        $("#questions").append(currentButton);
+    }
+}
+function nextQuestion () {
+    $("#questions").empty();
+    $("#questions").append(game.trivia[question].question);
+    choicesDisplay(question);
+    question ++;
+}
+
+ // this click check which button you clicked to make sure it matches with 
+ $(".choices").on("click",function(){
+    console.log($(this).attr("choice-number"));
+});
 
 
 
 
-// stuff that works for testing
-// function count() {
-//     timeLeft --;
-//     $("#time-left").text(timeLeft);
-// }
 
-// function run() {
-//     intervalId = setInterval(count, 1000);
-// }
 
-// run();
+// console.log (game.trivia[1].question);
+// console.log (game.trivia[1].choices[0]);
+// console.log (game.trivia[1].choices[1]);
+// console.log (game.trivia[1].choices[2]);
+// console.log (game.trivia[1].choices[3]);
+// console.log ("the answer is " + game.trivia[1].choices[game.trivia[1].answer]);
+
+}); //<----- last line for when whole app.js is loaded

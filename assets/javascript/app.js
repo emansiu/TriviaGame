@@ -98,13 +98,6 @@ function nextQuestion () {
     }
 }
 
-
-
-
-
-
-
-
 // console.log (game.trivia[1].question);
 // console.log (game.trivia[1].choices[0]);
 // console.log (game.trivia[1].choices[1]);

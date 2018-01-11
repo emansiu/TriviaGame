@@ -59,29 +59,44 @@ function run() {
     intervalId = setInterval(decrementSecond, 1000);
 }
 
-// this click begins game
+//--------------CREATE CLICK BUTTON & FUNCTION TO START GAME----------------//
+
+// --create/append button here--
+$("#interaction").append(createButton("START","start"));
+
+// give button function
 $(".start").on("click",function(){
     // run();
     nextQuestion();
 });
 
+// ---function to display correct answer ---
+function answerDisplay(n) {
+    if (parseInt($(this).attr("choice-number")) === game.trivia[n].answer) {
+        
+        correct ++;
+        nextQuestion();
+    }
+    else {
+        alert("Sorry, the correct answer was " + game.trivia[n].choices[game.trivia[n].answer]);
+        wrong ++;
+        nextQuestion();
+    }
+}
+
+
 // ----- function to display a single question with its options -----
 function choicesDisplay (n) {
+    // loop through options and create buttons
     for (var i=0; i < game.trivia[n].choices.length; i++){
         let currentButton = createButton(game.trivia[n].choices[i], "choices");
         currentButton.attr("choice-number",i);
         $("#questions").append(currentButton);
     }
-     // this click check which button you clicked to make sure it matches with 
+     // this click will check which button you clicked to make sure it matches with 
     $(".choices").on("click",function(){
         // determine if the button clicked is correct or not
-        if (parseInt($(this).attr("choice-number")) === game.trivia[n].answer) {
-            alert("winner");
-            nextQuestion();
-        }
-        else {
-            alert("Sorry, the correct answer was " + game.trivia[n].choices[game.trivia[n].answer]);
-        }
+        answerDisplay(n);
     });
 }
 // ----using choiceDisplay to loop through the choices for the current question and displaying it all-----
@@ -94,15 +109,12 @@ function nextQuestion () {
     }
     else if (question === game.trivia.length){
         $("#questions").empty();
-        $("#questions").append("That's it, good job");
+        $("#questions").append("That's it, good job"+"<br>");
+        $("#questions").append("you got "+ correct +" right");
+        $("#questions").append("you got "+ wrong +" wrong");
     }
 }
 
-// console.log (game.trivia[1].question);
-// console.log (game.trivia[1].choices[0]);
-// console.log (game.trivia[1].choices[1]);
-// console.log (game.trivia[1].choices[2]);
-// console.log (game.trivia[1].choices[3]);
-// console.log ("the answer is " + game.trivia[1].choices[game.trivia[1].answer]);
+
 
 }); //<----- last line for when whole app.js is loaded

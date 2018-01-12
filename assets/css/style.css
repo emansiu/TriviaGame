@@ -14,6 +14,10 @@ h2 {
     color: blue;
     font-size: 2em;
 }
+p {
+    padding: 10px;
+    font-size: 1.5em;
+}
 
 
 /*--------------------- MAIN ID'S FOR THE PAGE -----------------*/
@@ -22,10 +26,15 @@ h2 {
     /* background-color:black; */
     /* width:100%;
     height:100vh; */
+    text-align: center;
+    margin-top:30px;
 }
 
-#header {
+#header, #questions {
     text-align: center;
+}
+#questions {
+    font-size: 1.4em;
 }
 
 

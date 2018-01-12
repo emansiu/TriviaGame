@@ -16,15 +16,14 @@ var game = {
             choices: ["England", "United States", "Spain", "Sweden"],
             answer: 0
         },
-        
     ]
-
 };
 
 // default time variables
-var timeLeft = 12;
-var answerTime = 3;
-var intervalId;
+var timeLeft = 2;
+var answerTime = 2;
+var answerTimer;
+var gameTimer;
 var clockRunning = false;
 
 // game variables
@@ -40,52 +39,71 @@ function createButton (buttonText, className) {
     return newButton
 }
 
-// below are all timer related functions--------------------------
-function decrementSecond() {
+//------------ BELOW ARE THE TIME RELATED FUNCTIONS -------------//
+
+//  this section is game timer //
+function decrementGame() {
     if (timeLeft > 0){
         timeLeft --;
         $("#time-left").text(timeLeft);
     }
+    // else {
+    //     resetTimers();
+    //     calling runAnswerTime happens in the game program...//
+    // }
+}
+function runGameTime() {
+    gameTimer = setInterval(decrementGame, 1000);
+}
+
+// this section is Answer timer //
+function decrementAnswer() {
+    if (answerTime > 0){
+        clearInterval(gameTimer);
+        answerTime --;
+    }
     else {
-        resetTimers()
+        resetTimers();
     }
 }
+function runAnswerTime() {
+    answerTimer = setInterval(decrementAnswer, 1000);
+}
+
+// resetting timers here
 function resetTimers(){
+    clearInterval(answerTimer);
     timeLeft = 12;
     answerTime = 3
     $("#questions").empty();
+    nextQuestion();
+    runGameTime();
 }
-function run() {
-    intervalId = setInterval(decrementSecond, 1000);
-}
+// ****************************************************************//
+
 
 //--------------CREATE CLICK BUTTON & FUNCTION TO START GAME----------------//
-
 // --create/append button here--
+var startButtonBool = false;
+function makeStartButton () {
 $("#interaction").append(createButton("START","start"));
-
-// give button function
-$(".start").on("click",function(){
-    // run();
-    nextQuestion();
-});
-
-// ---function to display correct answer ---
-function answerDisplay(n) {
-    if (parseInt($(this).attr("choice-number")) === game.trivia[n].answer) {
-        
-        correct ++;
-        nextQuestion();
-    }
-    else {
-        alert("Sorry, the correct answer was " + game.trivia[n].choices[game.trivia[n].answer]);
-        wrong ++;
-        nextQuestion();
-    }
+startButtonBool = true;
 }
+makeStartButton();
+
+// gives start button function
+$(".start").on("click",function(){
+    if (startButtonBool === true){
+        startButtonBool = false;
+        $("#interaction").empty();
+    }
+    nextQuestion();
+    runGameTime();
+});
+// *************************************************************************
 
 
-// ----- function to display a single question with its options -----
+// --------FUNCTION TO DISPLAY A SINGLE QUESTION WITH ITS OPTIONS -----------------------------------//
 function choicesDisplay (n) {
     // loop through options and create buttons
     for (var i=0; i < game.trivia[n].choices.length; i++){
@@ -93,12 +111,29 @@ function choicesDisplay (n) {
         currentButton.attr("choice-number",i);
         $("#questions").append(currentButton);
     }
-     // this click will check which button you clicked to make sure it matches with 
+
+    //  THIS CLICK WILL CHECK WHICH BUTTON YOU CLICKED TO MAKE SURE IT MATCHES THE CORRECT ANSWER FROM GAME OBJECT
     $(".choices").on("click",function(){
         // determine if the button clicked is correct or not
-        answerDisplay(n);
+        if (parseInt($(this).attr("choice-number")) === game.trivia[n].answer) {
+            $("questions").empty();
+            $("questions").text("nailed it sucker!");
+            correct ++;
+            console.log("inside correct answer");
+            runAnswerTime();
+        }
+        // if answer chosen is wrong or time runs out
+        else if (parseInt($(this).attr("choice-number")) !== game.trivia[n].answer || timeLeft === 0) {
+            wrong ++;
+            console.log("inside wrong answer");
+            $("questions").empty();
+            $("questions").text("Sorry, the correct answer was " + game.trivia[n].choices[game.trivia[n].answer]);
+            runAnswerTime();
+        }
     });
 }
+// *****************************************************************************************************//
+
 // ----using choiceDisplay to loop through the choices for the current question and displaying it all-----
 function nextQuestion () {
     if (question < game.trivia.length){
@@ -114,7 +149,6 @@ function nextQuestion () {
         $("#questions").append("you got "+ wrong +" wrong");
     }
 }
-
 
 
 }); //<----- last line for when whole app.js is loaded

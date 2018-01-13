@@ -41,44 +41,7 @@ function createButton (buttonText, className) {
 
 //------------ BELOW ARE THE TIME RELATED FUNCTIONS -------------//
 
-//  this section is game timer //
-function decrementGame() {
-    if (timeLeft > 0){
-        timeLeft --;
-        $("#time-left").text(timeLeft);
-    }
-    // else {
-    //     resetTimers();
-    //     calling runAnswerTime happens in the game program...//
-    // }
-}
-function runGameTime() {
-    gameTimer = setInterval(decrementGame, 1000);
-}
 
-// this section is Answer timer //
-function decrementAnswer() {
-    if (answerTime > 0){
-        clearInterval(gameTimer);
-        answerTime --;
-    }
-    else {
-        resetTimers();
-    }
-}
-function runAnswerTime() {
-    answerTimer = setInterval(decrementAnswer, 1000);
-}
-
-// resetting timers here
-function resetTimers(){
-    clearInterval(answerTimer);
-    timeLeft = 12;
-    answerTime = 3
-    $("#questions").empty();
-    nextQuestion();
-    runGameTime();
-}
 // ****************************************************************//
 
 

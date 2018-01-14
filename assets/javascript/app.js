@@ -48,10 +48,12 @@ function createButton (buttonText, className) {
 //--------------CREATE CLICK BUTTON & FUNCTION TO START GAME----------------//
 // --create/append button here--
 var startButtonBool = false;
+
 function makeStartButton () {
-$("#interaction").append(createButton("START","start"));
-startButtonBool = true;
+    $("#interaction").append(createButton("START","start"));
+    startButtonBool = true;
 }
+
 makeStartButton();
 
 // gives start button function
@@ -60,10 +62,28 @@ $(".start").on("click",function(){
         startButtonBool = false;
         $("#interaction").empty();
     }
-    nextQuestion();
-    runGameTime();
+    $("#questions").append(game.trivia[question].question);
+    choicesDisplay(question);
 });
-// *************************************************************************
+// *************************************************************************//
+
+//  THIS CLICK WILL CHECK WHICH BUTTON YOU CLICKED TO MAKE SURE IT MATCHES THE CORRECT ANSWER FROM GAME OBJECT
+$(document).on("click", ".choices", function(){
+    // determine if the button clicked is correct or not
+    if (parseInt($(this).attr("choice-number")) === game.trivia[question].answer) {
+        $("#questions").empty();
+        $("#questions").text("nailed it sucker!");
+        correct ++;
+        nextQuestion();
+    }
+    // if answer chosen is wrong or time runs out
+    else if (parseInt($(this).attr("choice-number")) !== game.trivia[question].answer || timeLeft === 0) {
+        wrong ++;
+        $("#questions").empty();
+        $("#questions").text("Sorry, the correct answer was " + game.trivia[question].choices[game.trivia[question].answer]);
+    }
+});
+// *************************************************************************************************************//
 
 
 // --------FUNCTION TO DISPLAY A SINGLE QUESTION WITH ITS OPTIONS -----------------------------------//
@@ -73,39 +93,20 @@ function choicesDisplay (n) {
         let currentButton = createButton(game.trivia[n].choices[i], "choices");
         currentButton.attr("choice-number",i);
         $("#questions").append(currentButton);
-    }
-
-    //  THIS CLICK WILL CHECK WHICH BUTTON YOU CLICKED TO MAKE SURE IT MATCHES THE CORRECT ANSWER FROM GAME OBJECT
-    $(".choices").on("click",function(){
-        // determine if the button clicked is correct or not
-        if (parseInt($(this).attr("choice-number")) === game.trivia[n].answer) {
-            $("questions").empty();
-            $("questions").text("nailed it sucker!");
-            correct ++;
-            console.log("inside correct answer");
-            runAnswerTime();
-        }
-        // if answer chosen is wrong or time runs out
-        else if (parseInt($(this).attr("choice-number")) !== game.trivia[n].answer || timeLeft === 0) {
-            wrong ++;
-            console.log("inside wrong answer");
-            $("questions").empty();
-            $("questions").text("Sorry, the correct answer was " + game.trivia[n].choices[game.trivia[n].answer]);
-            runAnswerTime();
-        }
-    });
+    } 
 }
 // *****************************************************************************************************//
 
 // ----using choiceDisplay to loop through the choices for the current question and displaying it all-----
 function nextQuestion () {
-    if (question < game.trivia.length){
+    if (question < game.trivia.length - 1) {
+        question ++;
+        console.log(question +" and "+game.trivia.length )
         $("#questions").empty();
         $("#questions").append(game.trivia[question].question);
         choicesDisplay(question);
-        question ++;
     }
-    else if (question === game.trivia.length){
+    else if (question === game.trivia.length -1){
         $("#questions").empty();
         $("#questions").append("That's it, good job"+"<br>");
         $("#questions").append("you got "+ correct +" right");
@@ -113,5 +114,5 @@ function nextQuestion () {
     }
 }
 
-
+console.log(game.trivia.length);
 }); //<----- last line for when whole app.js is loaded

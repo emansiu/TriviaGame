@@ -7,16 +7,14 @@ body {
     background-repeat: repeat;
 }
 h1 {
-    color: blue;
     font-size: 3em;
 }
 h2 {
-    color: blue;
     font-size: 2em;
 }
 p {
     padding: 10px;
-    font-size: 1.5em;
+    font-size: 2em;
 }
 
 
@@ -29,12 +27,28 @@ p {
     text-align: center;
     margin-top:30px;
 }
-
+#header {
+    background-color:rgba(12, 13, 75, 0.65);
+    color:rgb(255, 255, 255);
+    border-radius: 10px;
+    display: block;
+    margin:auto;
+    margin-top:10px;
+    width:600px;
+    padding: 20px;
+}
 #header, #questions {
     text-align: center;
 }
 #questions {
     font-size: 1.4em;
+}
+#questions h2 {
+    font-size: 1.5em;
+
+}
+#questions p {
+    font-size: 1.5em;
 }
 
 
@@ -47,11 +61,13 @@ button {
     border-radius: 10px;
 }
 .choices {
-    background-color:green;
-    color:white;
-    border: 3px solid blue;
+    background-color:rgba(12, 13, 75, 0.65);
+    color:rgb(233, 233, 233);
+    border: 3px solid rgb(12, 13, 75);
     border-radius: 10px;
     display: block;
     margin:auto;
+    font-size: 1.5em;
     margin-top:10px;
+    width: 200px;
 }

@@ -129,7 +129,7 @@ $(document).ready(function() {
             clearInterval(gameTimer);
             timeLeft = 10;
             displayAnswer("right");
-            setTimeout(nextQuestion, 3000);
+            setTimeout(nextQuestion, 2000);
         }
         // if answer chosen is wrong or time runs out
         else if (parseInt($(this).attr("choice-number")) !== game.trivia[question].answer) {
@@ -148,7 +148,7 @@ $(document).ready(function() {
     function displayAnswer(rightOrWrong, correctAnswer) {
         if (rightOrWrong === "right"){
             $("#questions").empty();
-            $("#questions").html("<h2>" + "nice work, keep it up!" + "</h2>");
+            $("#questions").html("<h2>" + "nice work, keep at it!" + "</h2>");
         }
         else {
             $("#questions").empty();
